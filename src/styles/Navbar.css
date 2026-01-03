@@ -1,0 +1,32 @@
+/* src/styles/Navbar.css */
+
+.navbar {
+  background-color: #333; /* Dark background for the navbar */
+  color: white; /* Text color */
+  padding: 10px; /* Padding around the navbar */
+}
+
+nav {
+  background-color: #db1f1f; /* This background color may override .navbar */
+  padding: 10px; /* This can be removed if using .navbar */
+}
+
+nav ul {
+  display: flex; /* Align list items horizontally */
+  list-style: none; /* Remove bullet points */
+  padding: 0; /* Remove default padding */
+  margin: 0; /* Remove default margin */
+}
+
+nav ul li {
+  margin: 0 15px; /* Space between items */
+}
+
+nav ul li a {
+  text-decoration: none; /* Remove underline from links */
+  color: white; /* Ensure text color is white for contrast */
+}
+
+nav ul li a:hover {
+  color: #007bff; /* Change color on hover */
+}
