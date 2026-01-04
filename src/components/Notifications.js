@@ -12,7 +12,7 @@ const Notifications = ({ userId, notifications }) => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get(`http://${API_URL}/api/notifications/user/${userId}`);
+        const response = await axios.get(`${API_URL}/api/notifications/user/${userId}`);
         const fetchedNotifications = Array.isArray(response?.data) ? response.data : [];
         setInitialNotifications(fetchedNotifications);
         setAllNotifications(fetchedNotifications);

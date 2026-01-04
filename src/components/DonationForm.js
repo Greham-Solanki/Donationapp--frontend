@@ -37,7 +37,7 @@ const DonationForm = () => {
 
     try {
       const response = await axios.post(
-        `http://${API_URL}/api/donations/donate`,
+        `${API_URL}/api/donations/donate`,
         formData,
         {
           headers: {

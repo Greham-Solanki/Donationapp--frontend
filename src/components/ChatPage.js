@@ -19,7 +19,7 @@ const ChatPage = ({ currentUserId }) => {
   useEffect(() => {
     const fetchChatGroups = async () => {
       try {
-        const response = await apiGet(`http://${API_URL}/api/chats/user/${currentUserId}`);
+        const response = await apiGet(`${API_URL}/api/chats/user/${currentUserId}`);
         console.log('📱 Fetched chat groups:', response);
         setChatGroups(response);
         
@@ -47,7 +47,7 @@ const ChatPage = ({ currentUserId }) => {
     // Fetch existing messages
     const fetchMessages = async () => {
       try {
-        const response = await apiGet(`http://${API_URL}/api/chats/messages/${selectedChatGroupId}`);
+        const response = await apiGet(`${API_URL}/api/chats/messages/${selectedChatGroupId}`);
         console.log('📖 Fetched messages:', response);
         setMessages(response);
       } catch (error) {
@@ -103,7 +103,7 @@ const ChatPage = ({ currentUserId }) => {
 
     try {
       // Save message to database first
-      const response = await apiPost(`http://${API_URL}/api/chats/messages`, {
+      const response = await apiPost(`${API_URL}/api/chats/messages`, {
         chatGroupId: selectedChatGroupId,
         senderId: currentUserId,
         content: newMessage,

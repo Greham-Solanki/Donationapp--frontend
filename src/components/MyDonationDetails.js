@@ -19,7 +19,7 @@ const MyDonationDetails = ({ currentUserId, setDonationId }) => {
     const fetchDonationDetails = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://${API_URL}/api/donations/${donationId}`);
+        const response = await axios.get(`${API_URL}/api/donations/${donationId}`);
         console.log("Donation data:", response.data);
         
         // Check if imageUrl exists in response

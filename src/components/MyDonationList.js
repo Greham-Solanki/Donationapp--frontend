@@ -15,7 +15,7 @@ const MyDonationList = () => {
     const fetchDonations = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://${API_URL}/api/donations/donor/${donorId}`, {
+        const response = await axios.get(`${API_URL}/api/donations/donor/${donorId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

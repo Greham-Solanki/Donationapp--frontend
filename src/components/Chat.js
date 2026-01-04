@@ -26,7 +26,7 @@ const Chat = ({ userId, donorId, donationId }) => {
     console.log("Message data being sent:", messageData);
 
     try {
-      const response = await apiPost(`http://${API_URL}/api/chats/send`, messageData);
+      const response = await apiPost(`${API_URL}/api/chats/send`, messageData);
       console.log("Response from API:", response);
       if (response) {
 

@@ -15,7 +15,7 @@ const Register = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(`http://${API_URL}/api/auth/register`, { name, email, password, userType });
+      const response = await axios.post(`${API_URL}/api/auth/register`, { name, email, password, userType });
       console.log(response.data);
       navigate('/login'); // Navigate to login after registration
     } catch (error) {

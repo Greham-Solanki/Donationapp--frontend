@@ -18,7 +18,7 @@ const Login = ({ onLogin }) => {
 
     try {
       // Make the API call to log in
-      const response = await axios.post(`http://${API_URL}/api/auth/login`, { email, password });
+      const response = await axios.post(`${API_URL}/api/auth/login`, { email, password });
 
       // Store the token in local storage
       localStorage.setItem('token', response.data.token);

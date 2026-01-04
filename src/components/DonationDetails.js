@@ -19,7 +19,7 @@ const DonationDetails = ({ currentUserId, setDonationId }) => {
     const fetchDonationDetails = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://${API_URL}/api/donations/${donationId}`);
+        const response = await axios.get(`${API_URL}/api/donations/${donationId}`);
         console.log("📦 Donation data:", response.data);
         
         if (response.data.imageUrl) {
@@ -48,7 +48,7 @@ const DonationDetails = ({ currentUserId, setDonationId }) => {
 
       try {
         const response = await axios.get(
-          `http://${API_URL}/api/chats/existence/${currentUserId}/${donation.donor._id}/${donationId}`
+          `${API_URL}/api/chats/existence/${currentUserId}/${donation.donor._id}/${donationId}`
         );
         
         if (response.data.exists) {
@@ -80,7 +80,7 @@ const DonationDetails = ({ currentUserId, setDonationId }) => {
       console.log("📤 Initiating chat...");
 
       // Create chat group and send initial message
-      const response = await axios.post(`http://${API_URL}/api/chats/initiate`, {
+      const response = await axios.post(`${API_URL}/api/chats/initiate`, {
         doneeId: currentUserId,
         donorId,
         donationId,

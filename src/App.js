@@ -46,7 +46,7 @@ const App = () => {
 
     console.log('🔌 Creating socket connection for user:', user.id);
     
-    const newSocket = io('http://44.211.91.96:5000', {
+    const newSocket = io(process.env.REACT_APP_API_URL, {
       query: { userId: user.id },
       transports: ['websocket'],
       reconnection: true,
