@@ -4,6 +4,8 @@ import { apiGet, apiPost } from '../utils/api';
 import './ChatPage.css';
 import { SocketContext } from '../App';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const ChatPage = ({ currentUserId }) => {
   const { chatGroupId } = useParams(); // Get chatGroupId from URL
   const [chatGroups, setChatGroups] = useState([]);
@@ -17,7 +19,7 @@ const ChatPage = ({ currentUserId }) => {
   useEffect(() => {
     const fetchChatGroups = async () => {
       try {
-        const response = await apiGet(`/api/chats/user/${currentUserId}`);
+        const response = await apiGet(`http://${API_URL}/api/chats/user/${currentUserId}`);
         console.log('📱 Fetched chat groups:', response);
         setChatGroups(response);
         
@@ -45,7 +47,7 @@ const ChatPage = ({ currentUserId }) => {
     // Fetch existing messages
     const fetchMessages = async () => {
       try {
-        const response = await apiGet(`/api/chats/messages/${selectedChatGroupId}`);
+        const response = await apiGet(`http://${API_URL}/api/chats/messages/${selectedChatGroupId}`);
         console.log('📖 Fetched messages:', response);
         setMessages(response);
       } catch (error) {
@@ -101,7 +103,7 @@ const ChatPage = ({ currentUserId }) => {
 
     try {
       // Save message to database first
-      const response = await apiPost('/api/chats/messages', {
+      const response = await apiPost(`http://${API_URL}/api/chats/messages`, {
         chatGroupId: selectedChatGroupId,
         senderId: currentUserId,
         content: newMessage,

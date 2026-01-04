@@ -3,6 +3,8 @@ import axios from 'axios';
 import { apiGet } from '../utils/api';
 import './Notifications.css';  // Make sure to import the new CSS file
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const Notifications = ({ userId, notifications }) => {
   const [initialNotifications, setInitialNotifications] = useState([]);
   const [allNotifications, setAllNotifications] = useState([]);
@@ -10,7 +12,7 @@ const Notifications = ({ userId, notifications }) => {
   useEffect(() => {
     const fetchNotifications = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/notifications/user/${userId}`);
+        const response = await axios.get(`http://${API_URL}/api/notifications/user/${userId}`);
         const fetchedNotifications = Array.isArray(response?.data) ? response.data : [];
         setInitialNotifications(fetchedNotifications);
         setAllNotifications(fetchedNotifications);

@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const DonationList = ({ currentUserId, userType }) => {
   const [donations, setDonations] = useState([]);
   const [error, setError] = useState(null); // State to hold any error messages
@@ -11,7 +13,7 @@ const DonationList = ({ currentUserId, userType }) => {
     const fetchDonations = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get('http://localhost:5000/api/donations', {
+        const response = await axios.get(`http://${API_URL}/api/donations`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

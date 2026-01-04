@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const Login = ({ onLogin }) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -16,7 +18,7 @@ const Login = ({ onLogin }) => {
 
     try {
       // Make the API call to log in
-      const response = await axios.post('http://localhost:5000/api/auth/login', { email, password });
+      const response = await axios.post(`http://${API_URL}/api/auth/login`, { email, password });
 
       // Store the token in local storage
       localStorage.setItem('token', response.data.token);

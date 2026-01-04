@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const DonationDetails = ({ currentUserId, setDonationId }) => {
   const { donationId } = useParams();
@@ -18,7 +19,7 @@ const DonationDetails = ({ currentUserId, setDonationId }) => {
     const fetchDonationDetails = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:5000/api/donations/${donationId}`);
+        const response = await axios.get(`http://${API_URL}/api/donations/${donationId}`);
         console.log("📦 Donation data:", response.data);
         
         if (response.data.imageUrl) {
@@ -47,7 +48,7 @@ const DonationDetails = ({ currentUserId, setDonationId }) => {
 
       try {
         const response = await axios.get(
-          `http://localhost:5000/api/chats/existence/${currentUserId}/${donation.donor._id}/${donationId}`
+          `http://${API_URL}/api/chats/existence/${currentUserId}/${donation.donor._id}/${donationId}`
         );
         
         if (response.data.exists) {
@@ -79,7 +80,7 @@ const DonationDetails = ({ currentUserId, setDonationId }) => {
       console.log("📤 Initiating chat...");
 
       // Create chat group and send initial message
-      const response = await axios.post('http://localhost:5000/api/chats/initiate', {
+      const response = await axios.post(`http://${API_URL}/api/chats/initiate`, {
         doneeId: currentUserId,
         donorId,
         donationId,

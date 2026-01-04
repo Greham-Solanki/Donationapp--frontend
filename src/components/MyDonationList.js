@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const MyDonationList = () => {
   const [donations, setDonations] = useState([]);
   const [error, setError] = useState(null);
@@ -13,7 +15,7 @@ const MyDonationList = () => {
     const fetchDonations = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await axios.get(`http://localhost:5000/api/donations/donor/${donorId}`, {
+        const response = await axios.get(`http://${API_URL}/api/donations/donor/${donorId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

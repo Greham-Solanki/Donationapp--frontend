@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 const DonationForm = () => {
   const [itemName, setItemName] = useState('');
   const [description, setDescription] = useState('');
@@ -37,7 +37,7 @@ const DonationForm = () => {
 
     try {
       const response = await axios.post(
-        'http://localhost:5000/api/donations/donate',
+        `http://${API_URL}/api/donations/donate`,
         formData,
         {
           headers: {

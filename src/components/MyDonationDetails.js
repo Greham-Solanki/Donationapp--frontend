@@ -2,6 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
+
 const MyDonationDetails = ({ currentUserId, setDonationId }) => {
   const { donationId } = useParams();
   const [donation, setDonation] = useState(null);
@@ -17,7 +19,7 @@ const MyDonationDetails = ({ currentUserId, setDonationId }) => {
     const fetchDonationDetails = async () => {
       try {
         setLoading(true);
-        const response = await axios.get(`http://localhost:5000/api/donations/${donationId}`);
+        const response = await axios.get(`http://${API_URL}/api/donations/${donationId}`);
         console.log("Donation data:", response.data);
         
         // Check if imageUrl exists in response

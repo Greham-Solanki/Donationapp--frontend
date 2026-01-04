@@ -6,6 +6,7 @@ import { toast } from 'react-toastify';
 import './Chat.css';
 import { SocketContext } from '../App'; // Import SocketContext     
 
+const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 
 const Chat = ({ userId, donorId, donationId }) => {
@@ -25,7 +26,7 @@ const Chat = ({ userId, donorId, donationId }) => {
     console.log("Message data being sent:", messageData);
 
     try {
-      const response = await apiPost('/api/chats/send', messageData);
+      const response = await apiPost(`http://${API_URL}/api/chats/send`, messageData);
       console.log("Response from API:", response);
       if (response) {
 
