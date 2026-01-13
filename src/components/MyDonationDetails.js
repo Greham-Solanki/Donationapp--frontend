@@ -90,8 +90,9 @@ const MyDonationDetails = ({ currentUserId, setDonationId }) => {
       <p><strong>Description:</strong> {donation.description}</p>
       <p><strong>Category:</strong> {donation.category}</p>
       <p><strong>Location:</strong> {donation.location}</p>
-      <p><strong>Status:</strong> {donation.status}</p>
+      <p><strong>Status:</strong> {donation.status}</p>   
+    </div>
   );
 };
-
+  /*removed the debug */
 export default MyDonationDetails;
