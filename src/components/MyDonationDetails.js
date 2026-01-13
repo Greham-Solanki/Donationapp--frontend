@@ -91,24 +91,6 @@ const MyDonationDetails = ({ currentUserId, setDonationId }) => {
       <p><strong>Category:</strong> {donation.category}</p>
       <p><strong>Location:</strong> {donation.location}</p>
       <p><strong>Status:</strong> {donation.status}</p>
-      
-      {/* Debug info - remove this after testing */}
-      <div style={{ 
-        marginTop: '20px', 
-        padding: '10px', 
-        backgroundColor: '#f5f5f5', 
-        fontSize: '12px',
-        fontFamily: 'monospace'
-      }}>
-        <strong>Debug Info:</strong>
-        <pre>{JSON.stringify({
-          hasImage: !!donation.image,
-          hasImageUrl: !!donation.imageUrl,
-          imageKey: donation.image,
-          imageUrlPreview: donation.imageUrl ? donation.imageUrl.substring(0, 100) + '...' : 'N/A'
-        }, null, 2)}</pre>
-      </div>
-    </div>
   );
 };
 
