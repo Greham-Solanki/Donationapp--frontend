@@ -1,117 +1,85 @@
-name: Deploy Frontend to EC2
+name: Deploy Frontend to S3 + CloudFront
 
 on:
   push:
     branches:
       - main
-  workflow_dispatch: # Allows manual trigger from GitHub UI
+  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
-      
-      - name: Create SSH key file
-        run: |
-          echo "${{ secrets.EC2_SSH_PRIVATE_KEY }}" > private_key.pem
-          chmod 600 private_key.pem
-      
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
+
       - name: Create .env file
         run: |
           cat > .env << 'EOF'
           REACT_APP_API_URL=${{ secrets.REACT_APP_API_URL }}
           EOF
-      
-      - name: Copy .env to EC2
-        env:
-          HOST: ${{ secrets.EC2_HOST }}
-          USERNAME: ${{ secrets.EC2_USERNAME }}
+
+      - name: Install dependencies
         run: |
-          scp -o StrictHostKeyChecking=no -i private_key.pem .env ${USERNAME}@${HOST}:~/Donationapp--frontend/.env
-          echo "✅ .env file copied to EC2"
-      
-      - name: Deploy to EC2
-        env:
-          HOST: ${{ secrets.EC2_HOST }}
-          USERNAME: ${{ secrets.EC2_USERNAME }}
+          echo "📦 Installing dependencies..."
+          npm ci
+
+      - name: Build React app
         run: |
-          ssh -o StrictHostKeyChecking=no -i private_key.pem ${USERNAME}@${HOST} << 'ENDSSH'
-            set -e
-            
-            echo "=========================================="
-            echo "🚀 Starting Frontend Deployment"
-            echo "=========================================="
-            
-            cd ~/Donationapp--frontend
-            
-            echo ""
-            echo "📥 Pulling latest code from GitHub..."
-            
-            # Stash any local changes
-            if ! git diff-index --quiet HEAD --; then
-              echo "⚠️ Local changes detected, stashing..."
-              git stash
-            fi
-            
-            # Fetch and reset to match GitHub
-            git fetch origin main
-            git reset --hard origin/main
-            
-            echo "✅ Code synchronized with GitHub"
-            
-            echo ""
-            echo "📦 Installing dependencies..."
-            npm install || { echo "❌ npm install failed"; exit 1; }
-            
-            echo ""
-            echo "🏗️ Building React app..."
-            npm run build || { echo "❌ Build failed"; exit 1; }
-            
-            echo ""
-            echo "🔄 Restarting services..."
-            
-            # Check if using PM2
-            if pm2 list | grep -q "donation-frontend"; then
-              echo "Restarting PM2..."
-              pm2 restart donation-frontend
-            fi
-            
-            # Restart Nginx
-            if systemctl is-active --quiet nginx; then
-              echo "Restarting Nginx..."
-              sudo systemctl restart nginx
-            fi
-            
-            echo ""
-            echo "📊 Service Status:"
-            pm2 list 2>/dev/null || echo "PM2 not running"
-            sudo systemctl status nginx --no-pager | head -n 5
-            
-            echo ""
-            echo "=========================================="
-            echo "✅ Frontend Deployment Complete!"
-            echo "=========================================="
-          ENDSSH
-      
-      - name: Health Check
-        env:
-          HOST: ${{ secrets.EC2_HOST }}
+          echo "🏗️ Building React app..."
+          npm run build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+
+      - name: Deploy to S3
+        run: |
+          echo "🚀 Syncing to S3..."
+
+          # Hashed assets (JS/CSS) — cache aggressively, browsers re-fetch only when filename changes
+          aws s3 sync ./build s3://${{ secrets.S3_BUCKET }} \
+            --delete \
+            --exclude "index.html" \
+            --cache-control "public,max-age=31536000,immutable"
+
+          # index.html — never cache, so users always get the latest entry point
+          aws s3 cp ./build/index.html s3://${{ secrets.S3_BUCKET }}/index.html \
+            --cache-control "no-cache,no-store,must-revalidate"
+
+          echo "✅ S3 sync complete"
+
+      - name: Invalidate CloudFront cache
+        run: |
+          echo "🔄 Invalidating CloudFront..."
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DIST_ID }} \
+            --paths "/*"
+          echo "✅ CloudFront invalidation triggered"
+
+      - name: Health check
         run: |
           echo "🏥 Running health check..."
-          sleep 10
-          
-          if curl -f http://${HOST} > /dev/null 2>&1; then
+          sleep 15
+
+          if curl -f https://${{ secrets.CLOUDFRONT_DOMAIN }} > /dev/null 2>&1; then
             echo "✅ Frontend is healthy and responding!"
           else
-            echo "⚠️ Warning: Frontend may not be responding correctly"
-            exit 1
+            echo "⚠️ Warning: Frontend may not be responding yet (CDN propagation can take a minute)"
           fi
-      
+
       - name: Cleanup
         if: always()
         run: |
-          rm -f private_key.pem .env
+          rm -f .env
           echo "🧹 Cleaned up sensitive files"
