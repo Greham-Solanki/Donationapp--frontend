@@ -35,6 +35,7 @@ jobs:
         run: |
           echo "🏗️ Building React app..."
           npm run build
+          CI=false npm run build
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
