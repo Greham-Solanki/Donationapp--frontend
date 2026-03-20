@@ -116,10 +116,10 @@ const App = () => {
 
   const handleLogin = (userData) => {
     console.log('👤 User logged in:', userData);
-    setUser(userData.id);
+    setUser(userData);  // ← store the full object, not just userData.id
     setIsAuthenticated(true);
     localStorage.setItem('user', JSON.stringify(userData));
-  };
+};
 
   const handleLogout = () => {
     console.log('👋 User logging out');
