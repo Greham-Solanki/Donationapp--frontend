@@ -116,7 +116,7 @@ const App = () => {
 
   const handleLogin = (userData) => {
     console.log('👤 User logged in:', userData.id);
-    setUser(userData);
+    setUser(userData.id);
     setIsAuthenticated(true);
     localStorage.setItem('user', JSON.stringify(userData));
   };
