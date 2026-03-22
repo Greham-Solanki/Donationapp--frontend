@@ -1,0 +1,274 @@
+/* Main container */
+.my-donation-list-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+}
+
+/* Header */
+.my-donation-list-header {
+  font-size: 24px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #1c1e21;
+}
+
+/* Header row (title + add button) */
+.my-donation-list-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* Add new donation button */
+.my-donation-list-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: #1877f2;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 16px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  white-space: nowrap;
+}
+
+.my-donation-list-add-btn:hover {
+  background-color: #166fe5;
+  box-shadow: 0 2px 8px rgba(24, 119, 242, 0.35);
+}
+
+.my-donation-list-add-btn:active {
+  background-color: #1464d2;
+}
+
+/* Error message */
+.my-donation-list-error-message {
+  background-color: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+/* Grid layout for donation cards */
+.my-donation-list-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+/* Individual donation card */
+.my-donation-list-card {
+  background: #fff;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.my-donation-list-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Image container */
+.my-donation-list-image-container {
+  position: relative;
+  width: 100%;
+  padding-top: 100%; /* 1:1 Aspect Ratio */
+  background-color: #f0f2f5;
+  overflow: hidden;
+}
+
+.my-donation-list-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+
+.my-donation-list-card:hover .my-donation-list-image {
+  transform: scale(1.05);
+}
+
+/* Placeholder for missing images */
+.my-donation-list-image-placeholder {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-size: 48px;
+}
+
+/* Card content */
+.my-donation-list-card-content {
+  padding: 12px;
+  background: #fff;
+}
+
+.my-donation-list-item-name {
+  font-size: 16px;
+  font-weight: 600;
+  color: #1c1e21;
+  margin: 0 0 4px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.my-donation-list-location {
+  font-size: 14px;
+  color: #65676b;
+  margin: 0 0 10px 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Edit / Delete action buttons row */
+.my-donation-list-card-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.my-donation-list-edit-btn,
+.my-donation-list-delete-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+}
+
+.my-donation-list-edit-btn {
+  background-color: #e7f3ff;
+  color: #1877f2;
+}
+
+.my-donation-list-edit-btn:hover {
+  background-color: #cce4ff;
+}
+
+.my-donation-list-delete-btn {
+  background-color: #fff0f0;
+  color: #c33;
+}
+
+.my-donation-list-delete-btn:hover {
+  background-color: #ffd6d6;
+}
+
+/* Status badge */
+.my-donation-list-status {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background-color: rgba(76, 175, 80, 0.9);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+  z-index: 1;
+}
+
+.my-donation-list-status.reserved {
+  background-color: rgba(255, 152, 0, 0.9);
+}
+
+.my-donation-list-status.claimed {
+  background-color: rgba(158, 158, 158, 0.9);
+}
+
+/* Empty state */
+.my-donation-list-empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: #65676b;
+  font-size: 16px;
+}
+
+/* Loading state */
+.my-donation-list-loading-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: #65676b;
+  font-size: 16px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .my-donation-list-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+
+  .my-donation-list-header {
+    font-size: 20px;
+  }
+
+  .my-donation-list-card-content {
+    padding: 8px;
+  }
+
+  .my-donation-list-item-name {
+    font-size: 14px;
+  }
+
+  .my-donation-list-location {
+    font-size: 12px;
+  }
+
+  .my-donation-list-image-placeholder {
+    font-size: 36px;
+  }
+
+  .my-donation-list-add-btn {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+
+  .my-donation-list-edit-btn,
+  .my-donation-list-delete-btn {
+    font-size: 12px;
+    padding: 5px 8px;
+  }
+}
+
+@media (min-width: 1400px) {
+  .my-donation-list-grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+}
