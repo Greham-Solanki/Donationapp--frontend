@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import './Profile.css';
 
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
@@ -13,7 +14,6 @@ const Profile = ({ user }) => {
   useEffect(() => {
     const fetchProfileData = async () => {
       try {
-        // Adjust the URL based on your API endpoint
         const response = await axios.get(`${API_URL}/api/users/${user.email}`);
         setProfileData(response.data);
       } catch (err) {
@@ -26,31 +26,60 @@ const Profile = ({ user }) => {
     if (user) {
       fetchProfileData();
     } else {
-      setLoading(false); // If user is not defined, skip loading
+      setLoading(false);
     }
   }, [user]);
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading state
+    return <div className="profile-loading">Loading profile...</div>;
   }
 
   if (error) {
-    return <div>{error}</div>; // Show error if there is one
+    return <div className="profile-error">{error}</div>;
   }
 
-  // Render user profile data
+  // Get initials for avatar
+  const getInitials = (name) => {
+    if (!name) return '?';
+    return name
+      .split(' ')
+      .map((n) => n[0])
+      .join('')
+      .toUpperCase()
+      .slice(0, 2);
+  };
+
   return (
-    <div>
-      <h2>User Profile</h2>
+    <div className="profile-container">
+      <h2 className="profile-header">User Profile</h2>
+
       {profileData ? (
-        <div>
-          <p><strong>Name:</strong> {profileData.name}</p>
-          <p><strong>Email:</strong> {profileData.email}</p>
-          <p><strong>User Type:</strong> {profileData.userType}</p>
-          {/* Add other user profile fields here */}
-        </div>
+        <>
+          {/* Avatar with initials */}
+          <div className="profile-avatar">
+            {getInitials(profileData.name)}
+          </div>
+
+          {/* Info rows */}
+          <div className="profile-info-card">
+            <div className="profile-info-row">
+              <span className="profile-info-label">Name</span>
+              <span className="profile-info-value">{profileData.name}</span>
+            </div>
+            <div className="profile-info-row">
+              <span className="profile-info-label">Email</span>
+              <span className="profile-info-value">{profileData.email}</span>
+            </div>
+            <div className="profile-info-row">
+              <span className="profile-info-label">User Type</span>
+              <span className={`profile-badge ${profileData.userType}`}>
+                {profileData.userType}
+              </span>
+            </div>
+          </div>
+        </>
       ) : (
-        <p>No profile data available.</p>
+        <p className="profile-empty">No profile data available.</p>
       )}
     </div>
   );
