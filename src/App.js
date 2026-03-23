@@ -13,9 +13,9 @@ import Profile from './components/Profile';
 import Notifications from './components/Notifications';
 import DonationDetails from './components/DonationDetails';
 import ChatPage from './components/ChatPage';
-//import ChatListPage from './components/ChatListPage';
 import MyDonationList from './components/MyDonationList';
 import MyDonationDetails from './components/MyDonationDetails';
+import EditDonation from './components/EditDonation'; // ← NEW
 import io from 'socket.io-client';
 
 export const SocketContext = createContext();
@@ -46,7 +46,7 @@ const App = () => {
     if (!user?.id) return null;
 
     console.log('🔌 Creating socket connection for user:', user.id);
-    
+
     const newSocket = io(process.env.REACT_APP_API_URL, {
       query: { userId: user.id },
       transports: ['websocket'],
@@ -56,7 +56,7 @@ const App = () => {
     });
 
     return newSocket;
-  }, [user?.id]); // Only recreate when user.id changes
+  }, [user?.id]);
 
   // Socket event handlers
   useEffect(() => {
@@ -76,8 +76,6 @@ const App = () => {
 
     socket.on('messageReceived', (messageData) => {
       console.log('📨 Global message received:', messageData);
-      // This is handled in ChatPage.js for active chats
-      // Here we just update notifications for inactive chats
     });
 
     socket.on('newNotification', (notificationData) => {
@@ -93,7 +91,6 @@ const App = () => {
       ]);
     });
 
-    // Cleanup on unmount or when socket changes
     return () => {
       console.log('🔌 Cleaning up socket listeners');
       socket.off('connect');
@@ -116,10 +113,10 @@ const App = () => {
 
   const handleLogin = (userData) => {
     console.log('👤 User logged in:', userData);
-    setUser(userData);  // ← store the full object, not just userData.id
+    setUser(userData);
     setIsAuthenticated(true);
     localStorage.setItem('user', JSON.stringify(userData));
-};
+  };
 
   const handleLogout = () => {
     console.log('👋 User logging out');
@@ -205,6 +202,20 @@ const App = () => {
               />
             }
           />
+
+          {/* ← NEW: Edit Donation route */}
+          <Route
+            path="/editdonation/:donationId"
+            element={
+              <ProtectedRoute
+                element={<EditDonation />}
+                isAuthenticated={isAuthenticated}
+                userType={user?.userType}
+                requiredType="donor"
+              />
+            }
+          />
+
           <Route
             path="/profile"
             element={

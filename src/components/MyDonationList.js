@@ -17,9 +17,7 @@ const MyDonationList = () => {
       try {
         const token = localStorage.getItem('token');
         const response = await axios.get(`${API_URL}/api/donations/donor/${donorId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setDonations(response.data);
       } catch (error) {
@@ -27,7 +25,6 @@ const MyDonationList = () => {
         setError('Failed to fetch donations.');
       }
     };
-
     fetchDonations();
   }, [donorId]);
 
@@ -36,12 +33,12 @@ const MyDonationList = () => {
   };
 
   const handleEdit = (e, donationId) => {
-    e.stopPropagation(); // Prevent card click from firing
+    e.stopPropagation();
     navigate(`/editdonation/${donationId}`);
   };
 
   const handleDelete = async (e, donationId) => {
-    e.stopPropagation(); // Prevent card click from firing
+    e.stopPropagation();
     if (!window.confirm('Are you sure you want to delete this donation?')) return;
     try {
       const token = localStorage.getItem('token');
@@ -57,12 +54,11 @@ const MyDonationList = () => {
 
   return (
     <div className="my-donation-list-container">
-      {/* Header row with title and Add button */}
       <div className="my-donation-list-header-row">
         <h2 className="my-donation-list-header">My Donations</h2>
         <button
           className="my-donation-list-add-btn"
-          onClick={() => navigate('/adddonation')}
+          onClick={() => navigate('/donate')}
         >
           + Add New Donation
         </button>
@@ -82,7 +78,6 @@ const MyDonationList = () => {
               className="my-donation-list-card"
               onClick={() => handleDonationClick(donation._id)}
             >
-              {/* Image */}
               <div className="my-donation-list-image-container">
                 {donation.imageUrl ? (
                   <img
@@ -93,21 +88,15 @@ const MyDonationList = () => {
                 ) : (
                   <div className="my-donation-list-image-placeholder">🎁</div>
                 )}
-
-                {/* Status badge */}
                 {donation.status && (
                   <span className={`my-donation-list-status ${donation.status}`}>
                     {donation.status}
                   </span>
                 )}
               </div>
-
-              {/* Card content */}
               <div className="my-donation-list-card-content">
                 <p className="my-donation-list-item-name">{donation.itemName}</p>
                 <p className="my-donation-list-location">{donation.location}</p>
-
-                {/* Edit / Delete buttons */}
                 <div className="my-donation-list-card-actions">
                   <button
                     className="my-donation-list-edit-btn"
