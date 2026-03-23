@@ -9,12 +9,39 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Header */
+/* Header row */
+.profile-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
 .profile-header {
   font-size: 24px;
   font-weight: 600;
   color: #1c1e21;
-  margin: 0 0 24px 0;
+  margin: 0;
+}
+
+/* Edit toggle button */
+.profile-edit-toggle-btn {
+  background: none;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 8px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #65676b;
+  cursor: pointer;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.profile-edit-toggle-btn:hover {
+  background-color: #f0f2f5;
+  color: #1c1e21;
 }
 
 /* Avatar circle */
@@ -32,7 +59,7 @@
   margin: 0 auto 24px auto;
 }
 
-/* Info card */
+/* Info card (view mode) */
 .profile-info-card {
   display: flex;
   flex-direction: column;
@@ -42,7 +69,6 @@
   overflow: hidden;
 }
 
-/* Each row */
 .profile-info-row {
   display: flex;
   align-items: center;
@@ -55,7 +81,6 @@
   border-bottom: none;
 }
 
-/* Label */
 .profile-info-label {
   font-size: 13px;
   font-weight: 600;
@@ -65,7 +90,6 @@
   letter-spacing: 0.4px;
 }
 
-/* Value */
 .profile-info-value {
   font-size: 15px;
   color: #1c1e21;
@@ -95,6 +119,139 @@
   color: #1877f2;
 }
 
+/* ── Edit form ── */
+.profile-edit-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.profile-edit-section-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #65676b;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  margin-bottom: 2px;
+}
+
+.profile-edit-input {
+  width: 100%;
+  padding: 10px 14px;
+  font-size: 15px;
+  color: #1c1e21;
+  background-color: #f0f2f5;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  outline: none;
+  transition: border-color 0.2s ease, background-color 0.2s ease;
+  box-sizing: border-box;
+}
+
+.profile-edit-input::placeholder {
+  color: #8a8d91;
+}
+
+.profile-edit-input:focus {
+  background-color: #fff;
+  border-color: #1877f2;
+}
+
+/* Edit form action buttons row */
+.profile-edit-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.profile-save-btn {
+  flex: 1;
+  padding: 11px;
+  background-color: #1877f2;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-save-btn:hover {
+  background-color: #166fe5;
+  box-shadow: 0 2px 8px rgba(24, 119, 242, 0.35);
+}
+
+.profile-save-btn:active {
+  background-color: #1464d2;
+}
+
+.profile-cancel-btn {
+  flex: 1;
+  padding: 11px;
+  background-color: #f0f2f5;
+  color: #1c1e21;
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.profile-cancel-btn:hover {
+  background-color: #e4e6eb;
+}
+
+/* Divider */
+.profile-divider {
+  border: none;
+  border-top: 1px solid #e4e6eb;
+  margin: 24px 0;
+}
+
+/* Delete account button */
+.profile-delete-btn {
+  width: 100%;
+  padding: 11px;
+  background-color: #fff0f0;
+  color: #c33;
+  font-size: 15px;
+  font-weight: 600;
+  border: 1px solid #fcc;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.profile-delete-btn:hover {
+  background-color: #ffd6d6;
+  box-shadow: 0 2px 8px rgba(204, 51, 51, 0.2);
+}
+
+/* Success / error inline messages */
+.profile-message-success {
+  padding: 12px 16px;
+  background-color: #e6f4ea;
+  border: 1px solid #a8d5b5;
+  color: #2d6a4f;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.profile-message-error {
+  padding: 12px 16px;
+  background-color: #fee;
+  border: 1px solid #fcc;
+  color: #c33;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+}
+
 /* Empty state */
 .profile-empty {
   text-align: center;
@@ -112,7 +269,7 @@
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
-/* Error state */
+/* Page-level error */
 .profile-error {
   max-width: 560px;
   margin: 40px auto;
@@ -145,5 +302,19 @@
 
   .profile-info-value {
     font-size: 14px;
+  }
+
+  .profile-edit-input {
+    font-size: 14px;
+  }
+
+  .profile-save-btn,
+  .profile-cancel-btn,
+  .profile-delete-btn {
+    font-size: 14px;
+  }
+
+  .profile-edit-actions {
+    flex-direction: column;
   }
 }
