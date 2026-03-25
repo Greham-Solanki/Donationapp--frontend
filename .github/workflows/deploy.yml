@@ -60,8 +60,6 @@ jobs:
             --cache-control "no-cache,no-store,must-revalidate"
 
           echo "✅ S3 sync complete"
-
-          "printf 'PORT=${{ secrets.PORT }}\nNODE_ENV=${{ secrets.NODE_ENV }}\nMONGODB_URI=${{ secrets.MONGODB_URI }}\nJWT_SECRET=${{ secrets.JWT_SECRET }}\nAWS_S3_BUCKET=${{ secrets.AWS_S3_BUCKET }}\nAWS_REGION=${{ secrets.AWS_REGION }}\n' > .env"
           
       - name: Invalidate CloudFront cache
         run: |
