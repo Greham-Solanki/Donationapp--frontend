@@ -4,6 +4,10 @@ A donation management platform where donors can list items for donation and done
 
 **Backend Repo:** [Donationapp-Backend](https://github.com/Greham-Solanki/Donationapp-Backend)
 
+**Project Demo:** [Youtube](https://youtu.be/iWrAFw4k-R8)
+
+**AWS Infrastructure Diagram:** [Diagram](https://github.com/Greham-Solanki/Donationapp-Backend/blob/main/AWS%20Infrastructure%20Diagram.png)
+
 ---
 
 ## Features
